@@ -8,13 +8,16 @@ Redis
 PhpMyadmin
 
 ## Run those Commands
+```sh
     php artisan sail-ssl:install
     php artisan migrate --seed
     php artisan passport:install
     php artisan key:generate
     php artisan config:cache
+```
 
 ## Run sail
+```sh
     ./vendor/bin/sail up  
     ./vendor/bin/sail artisan sail-ssl:install
     ./vendor/bin/sail artisan migrate --seed
@@ -22,7 +25,7 @@ PhpMyadmin
     ./vendor/bin/sail artisan key:generate
     ./vendor/bin/sail artisan config:cache
     ./vendor/bin/sail down
-
+```
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
