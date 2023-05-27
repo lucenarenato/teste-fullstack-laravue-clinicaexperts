@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AccessLogsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('info', function () {
     $app_info = [
         'server' => getenv('APP_NAME'),
-        'version' => getenv('APP_VERSION'),
+        'version' => getenv('APP_VERSION')
     ];
 
     return response()->json($app_info);
 });
+
+Route::get('ip', [AccessLogsController::class, 'getIp']);
+Route::get('logs', [AccessLogsController::class, 'create']);
