@@ -15,9 +15,10 @@ class CreateShortLinksTable extends Migration
     {
         Schema::create('short_links', function (Blueprint $table) {
             $table->id();
-            $table->string('Identificacao')->unique()->nullable();
-            $table->string('l_cod', 64)->unique();
-            $table->string('l_link');
+            $table->string('identificador')->unique()->nullable();
+            $table->string('url_link');
+            $table->string('url_mini', 64)->unique();
+            $table->integer('num_acessos')->unsigned()->default(1);
             $table->timestamps();
         });
 
@@ -32,6 +33,7 @@ class CreateShortLinksTable extends Migration
             $table->string('cidade')->nullable();
             $table->string('user_agente')->nullable();
             $table->integer('num_acessos')->nullable();
+            $table->integer('short_link_id')->nullable();
             $table->timestamps();
         });
     }

@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 
-class AccessLog extends Model
+class ShortLink extends Model
 {
-    protected $table = 'access_log';
+    protected $table = 'short_links';
 
     protected $fillable = [
-        'ip', 'data', 'pais', 'continente', 'latitude', 'longitude', 'cidade', 'user_agente', 'num_acessos'
+        'identificador', 'url_mini', 'url_link', 'num_acessos'
     ];
 
     protected $dates = [
@@ -26,5 +26,13 @@ class AccessLog extends Model
     public $belongsTo = [
         'user' => User::class
     ];
+
+    public function regras()
+    {
+        return [
+            'link' => 'required',
+            'identificador' => 'unique:short_links',
+        ];
+    }
 
 }

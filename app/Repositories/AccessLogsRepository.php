@@ -5,8 +5,6 @@ namespace App\Repositories;
 use App\Models\AccessLog;
 use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpClient\Psr18Client;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Carbon\Carbon;
 
 class AccessLogsRepository
@@ -23,8 +21,6 @@ class AccessLogsRepository
                 }
             }
         }
-        // dump(request()->server('HTTP_USER_AGENT'));
-        // dump(request()->ip());
         return request()->ip();
     }
 
@@ -32,8 +28,7 @@ class AccessLogsRepository
     {
             $ipData = $this->ipdata(); //data($request);
             dump($ipData);
-            //dd($this->getIp());
-            //$ipData = $this->ipdata();
+
             $accessLog = new AccessLog();
             $accessLog->ip = $this->getIp(); //$ipData['ip'] ? $ipData['ip'] : null;
             $accessLog->data = Carbon::now();
@@ -78,39 +73,6 @@ class AccessLogsRepository
         $response = json_decode($response);
         $lat = $response->latitude;
         $lon = $response->longitude;
-
-        return $response;
-    }
-
-    public function myIpe()
-    {
-        $ipData = $this->ipdata();
-    }
-
-    public function data($request)
-    {
-        if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-            $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
-        }
-
-        $httpClient = new Psr18Client();
-        $psr17Factory = new Psr17Factory();
-        $ipdata = new Ipdata('e6af4fb92c8e9644fc172616d6cfcb98948cebbdd9bb5b89c051cef0', $httpClient, $psr17Factory);
-        //$data = $ipdata->lookup('45.191.207.11');
-        if (config('app.url') == 'http://localhost:8000') {
-            return null;
-        }
-
-        if ($this->getIp() == null) {
-            return null;
-        }
-
-        $data = $ipdata->lookup($this->getIp());
-        $curl = curl_init();
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        curl_close($curl);
-        $response = $data;
 
         return $response;
     }
