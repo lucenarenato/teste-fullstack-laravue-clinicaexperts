@@ -10,7 +10,8 @@ class ShortLinkController extends Controller
 {
     public function index()
     {
-        // $views->num_acessos = $views->num_acessos + 1;
+        $shortLink = new ShortLink();
+        return response()->json($shortLink->all(), 200);
     }
 
     public function store(Request $request)
