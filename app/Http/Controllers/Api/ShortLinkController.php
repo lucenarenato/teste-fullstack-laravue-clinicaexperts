@@ -23,9 +23,24 @@ class ShortLinkController extends Controller
         $params = [
             'url_link' => $request->link,
             'identificador' => $request->identificador ? $request->identificador : null,
-            'url_mini' => $url . '/' . $url_mini
+            'url_mini' => isset($request->identificador) ? $url . '/' . $request->identificador :  $url . '/' . $url_mini
         ];
         $shortLink->create($params);
         return response()->json($params, 200);
+    }
+
+    public function show($id)
+    {
+        $value = ShortLink::where('url_mini', '=', env('APP_URL') . '/' . $id)->first();
+        if (isset($value)) {
+            $params = [];
+            $value->num_acessos = $value->num_acessos + 1;
+            $value->update();
+            $params = ['linkOriginal' => $value->url_link];
+            return response()->json($params, 200);
+        }
+        $response = array();
+        $response = ['Status' => 'Erro','Mensagem' => 'Link não cadastrado!'];
+        return response()->json($response, 402);
     }
 }

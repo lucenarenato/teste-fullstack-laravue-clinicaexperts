@@ -13,7 +13,7 @@ class AccessLog extends Model
     protected $table = 'access_log';
 
     protected $fillable = [
-        'ip', 'data', 'pais', 'continente', 'latitude', 'longitude', 'cidade', 'user_agente', 'num_acessos'
+        'ip', 'ip_local', 'data', 'pais', 'continente', 'latitude', 'longitude', 'cidade', 'user_agente', 'num_acessos'
     ];
 
     protected $dates = [

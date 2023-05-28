@@ -16,7 +16,7 @@ class CreateShortLinksTable extends Migration
         Schema::create('short_links', function (Blueprint $table) {
             $table->id();
             $table->string('identificador')->unique()->nullable();
-            $table->string('url_link');
+            $table->string('url_link')->nullable();
             $table->string('url_mini', 64)->unique();
             $table->integer('num_acessos')->unsigned()->default(1);
             $table->timestamps();
@@ -25,6 +25,7 @@ class CreateShortLinksTable extends Migration
         Schema::create('access_log', function (Blueprint $table) {
             $table->id();
             $table->string('ip')->nullable();
+            $table->string('ip_local')->nullable();
             $table->timestamp('data')->nullable(); // $table->date('data')->nullable();
             $table->string('pais')->nullable();
             $table->string('continente')->nullable();

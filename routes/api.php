@@ -32,3 +32,4 @@ Route::get('info', function () {
 Route::get('ip', [AccessLogsController::class, 'getIp']);
 Route::get('logs', [AccessLogsController::class, 'create']);
 Route::post('short/link', [ShortLinkController::class, 'store']);
+Route::get('short/link/{id}', [ShortLinkController::class, 'show']);

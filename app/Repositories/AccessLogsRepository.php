@@ -30,7 +30,8 @@ class AccessLogsRepository
             dump($ipData);
 
             $accessLog = new AccessLog();
-            $accessLog->ip = $this->getIp(); //$ipData['ip'] ? $ipData['ip'] : null;
+            $accessLog->ip = $ipData->ip ? $$ipData->ip : null;
+            $accessLog->ip_local = $this->getIp();
             $accessLog->data = Carbon::now();
             $accessLog->pais = $ipData->country ? $ipData->country : null;
             $accessLog->continente = $ipData->continent ? $ipData->continent : null;
