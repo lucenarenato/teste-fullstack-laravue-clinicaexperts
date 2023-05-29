@@ -2,20 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Models\AccessLog;
 use App\Http\Requests\Request;
-use Illuminate\Support\Facades\Log;
+use App\Models\AccessLog;
 use Carbon\Carbon;
 
 class AccessLogsRepository
 {
     public function getIp()
     {
-        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
-            if (array_key_exists($key, $_SERVER) === true){
-                foreach (explode(',', $_SERVER[$key]) as $ip){
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
                     $ip = trim($ip); // just to be safe
-                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
                         return $ip;
                     }
                 }
@@ -26,26 +25,24 @@ class AccessLogsRepository
 
     public function create($request)
     {
-            $ipData = $this->ipdata(); //data($request);
-            dump($ipData);
+        $ipData = $this->ipdata(); //data($request);
+        dump($ipData);
 
-            $accessLog = new AccessLog();
-            $accessLog->ip = $ipData->ip ? $$ipData->ip : null;
-            $accessLog->ip_local = $this->getIp();
-            $accessLog->data = Carbon::now();
-            $accessLog->pais = $ipData->country ? $ipData->country : null;
-            $accessLog->continente = $ipData->continent ? $ipData->continent : null;
-            $accessLog->latitude = $ipData->latitude ? $ipData->latitude : null;
-            $accessLog->longitude = $ipData->longitude ? $ipData->longitude : null;
-            $accessLog->cidade = $ipData->city ? $ipData->city : null;
-            //$accessLog->location = $ipData['city'] . '-' . $ipData['country_name'] ? $ipData['city'] . '-' . $ipData['country_name'] : null;
-            $accessLog->user_agente = request()->server('HTTP_USER_AGENT');
-            // num_acessos
-            if ($accessLog->save()) {
-                return $accessLog;
-            } else {
-                return null;
-            }
+        $accessLog = new AccessLog();
+        $accessLog::updateOrCreate([
+            'ip' => $ipData->ip ? $ipData->ip : null,
+            'ip_local' => $this->getIp(),
+            'data' => Carbon::now(),
+            'pais' => $ipData->country ? $ipData->country : null,
+            'continente' => $ipData->continent ? $ipData->continent : null,
+            'latitude' => $ipData->latitude ? $ipData->latitude : null,
+            'longitude' => $ipData->longitude ? $ipData->longitude : null,
+            'cidade' => $ipData->city ? $ipData->city : null,
+            'user_agente' => request()->server('HTTP_USER_AGENT')],
+        );
+
+        return $accessLog;
+
     }
 
     public function ipdata()

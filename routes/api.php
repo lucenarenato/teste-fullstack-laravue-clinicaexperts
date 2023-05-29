@@ -35,3 +35,4 @@ Route::get('logs', [AccessLogsController::class, 'create']);
 Route::get('short/list', [ShortLinkController::class, 'index']);
 Route::post('short/link', [ShortLinkController::class, 'store']);
 Route::get('short/link/{id}', [ShortLinkController::class, 'show']);
+Route::put('short/link/{id}', [ShortLinkController::class, 'update']);
