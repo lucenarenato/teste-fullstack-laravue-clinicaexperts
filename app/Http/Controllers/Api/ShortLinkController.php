@@ -89,7 +89,7 @@ class ShortLinkController extends Controller
             return response()->json($response, 402);
         }
         else{
-            DB::delete('delete from short_links where url_mini = ?',[$id]);
+            ShortLink::where('url_mini', '=', env('APP_URL') . '/' . $id)->delete();
             $response = array();
             $response = ['Status' => 'Sucesso','Resultado' => "Delete realizado com sucesso!"];
             return response()->json($response, 200);
