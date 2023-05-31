@@ -11,8 +11,18 @@ class ShortLinkController extends Controller
 {
     public function index()
     {
-        $shortLink = new ShortLink();
-        return response()->json($shortLink->all(), 200);
+        $shortLinks = ShortLink::get();
+        $rows = [];
+        foreach($shortLinks as $shortLink){
+            $row = [
+                'identificador' => $shortLink->identificador,
+                'url_mini' => $shortLink->url_mini,
+                'num_acessos' => $shortLink->num_acessos,
+            ];
+            array_push($rows, $row);
+        }
+
+        return response()->json($rows, 200);
     }
 
     public function store(Request $request)
@@ -28,7 +38,7 @@ class ShortLinkController extends Controller
             'url_mini' => isset($request->identificador) ? $url . '/' . $request->identificador : $url . '/' . $url_mini,
         ];
         $shortLink->create($params);
-        return response()->json($params, 200);
+        return response()->json($params['url_mini'], 200);
     }
 
     public function show($id)
