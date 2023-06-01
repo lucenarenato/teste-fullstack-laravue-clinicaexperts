@@ -6,10 +6,13 @@ use Request;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class ShortLink extends Model
 {
+    use HasFactory;
+
     protected $table = 'short_links';
 
     protected $fillable = [
