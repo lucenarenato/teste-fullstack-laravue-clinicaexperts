@@ -9,10 +9,12 @@ let message = ref("Você deseja excluir a URL curta?")
 const axiosUrlDelete = async (e: Event) => {
 
     e.preventDefault();
-
-    await api.delete("/urls", {
+    console.log(encurt_url);
+    var part = encurt_url.value.split("/");
+    console.log(part[3]);
+    await api.delete("/short/link/" + part[3], {
         data: {
-            encurt_url: encurt_url.value
+            part: part[3]
         }
     })
         .then(response => (message.value = response.data))
@@ -22,7 +24,7 @@ const axiosUrlDelete = async (e: Event) => {
 
     setTimeout(() => {
         message.value = "Você deseja excluir a URL curta?";
-        encurt_url.value = "";
+        part[3] = "";
     }, 4000);
 }
 </script>
