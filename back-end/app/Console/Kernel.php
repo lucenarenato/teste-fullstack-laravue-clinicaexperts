@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\DomainLogDestroy::class,
     ];
 
     /**
@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command(Commands\DomainLogDestroy::class)->monthlyOn(1, '03:01');
     }
 
     /**
