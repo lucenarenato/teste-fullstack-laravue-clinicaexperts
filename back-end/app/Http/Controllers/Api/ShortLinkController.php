@@ -31,7 +31,8 @@ class ShortLinkController extends Controller
         $this->validate($request, $shortLink->regras());
         $params = [];
         $url_mini = substr(sha1(time()), 0, 8);
-        $url = env('APP_URL');
+        $url = 'http://localhost:8080'; //env('APP_URL');
+
         $params = [
             'url_link' => $request->link,
             'identificador' => $request->identificador ? $request->identificador : null,
@@ -43,12 +44,16 @@ class ShortLinkController extends Controller
 
     public function show($id)
     {
-        $value = ShortLink::where('url_mini', '=', env('APP_URL') . '/' . $id)->first();
+        $value = ShortLink::where('url_mini', '=', 'http://localhost:8080' . '/' . $id)->first();
         if (isset($value)) {
             $params = [];
             $value->num_acessos = $value->num_acessos + 1;
             $value->update();
-            $params = ['linkOriginal' => $value->url_link];
+            $params = [
+                'total_visits' => $value->num_acessos,
+                'chave' => $value->url_link,
+                'title' => $value->identificador
+            ];
             return response()->json($params, 200);
         }
         $response = array();
@@ -58,7 +63,7 @@ class ShortLinkController extends Controller
 
     public function update(Request $request, $id)
     {
-        $value = ShortLink::where('url_mini', '=', env('APP_URL') . '/' . $id)->first();
+        $value = ShortLink::where('url_mini', '=', 'http://localhost:8080' . '/' . $id)->first();
         if (!isset($value)) {
             $response = array();
             $response = ['Status' => 'Erro', 'Mensagem' => 'Paramento não foi passado ou invalido!'];
@@ -67,7 +72,7 @@ class ShortLinkController extends Controller
         $url_mini = substr(sha1(time()), 0, 8);
 
         $params = [];
-        $url = env('APP_URL');
+        $url = 'http://localhost:8080';
         $params = [
             'url_link' => $request->link,
             'identificador' => $request->identificador ? $request->identificador : null,
@@ -82,14 +87,14 @@ class ShortLinkController extends Controller
 
     public function destroy($id)
     {
-        $value = ShortLink::where('url_mini', '=', env('APP_URL') . '/' . $id)->first();
+        $value = ShortLink::where('url_mini', '=', 'http://localhost:8080' . '/' . $id)->first();
         if (!isset($value)) {
             $response = array();
             $response = ['Status' => 'Erro','Mensagem' => 'Não foi encontrado resultado para a consulta!'];
             return response()->json($response, 402);
         }
         else{
-            ShortLink::where('url_mini', '=', env('APP_URL') . '/' . $id)->delete();
+            ShortLink::where('url_mini', '=', 'http://localhost:8080' . '/' . $id)->delete();
             $response = array();
             $response = ['Status' => 'Sucesso','Resultado' => "Delete realizado com sucesso!"];
             return response()->json($response, 200);

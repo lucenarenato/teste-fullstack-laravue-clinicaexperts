@@ -38,3 +38,11 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Dockerrização
+- https://v2.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
+
+```
+docker build -t vuejs-app .
+docker run -it -p 8080:8080 --rm --name vuejs-app vuejs-app
+```

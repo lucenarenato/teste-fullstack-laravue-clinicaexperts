@@ -16,9 +16,11 @@ let warning = ref()
 const axiosUrlPost = async (e: Event) => {
 
     e.preventDefault();
-
-    await api.post("/short/link", {
-        encurt_url: encurt_url.value
+    console.log(encurt_url);
+    var part = encurt_url.value.split("/");
+    console.log(part[3]);
+    await api.post("/short/link/" + part[3], {
+        part: part[3]
     })
         .then(response => {
             if (response.status === 201) {
