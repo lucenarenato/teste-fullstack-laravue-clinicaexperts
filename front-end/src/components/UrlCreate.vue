@@ -34,7 +34,7 @@ provide("serverReponse", serverReponse)
         <label for="identificador-original" class="identificador">Identificador</label>
         <br/>
         <input id="identificador-original" class="identificador-entrada" placeholder="  teste"
-            type="text" v-model="identificador" required><br/>
+            type="text" v-model="identificador"><br/>
         <button class="url-form-btn" type="submit">+</button>
     </form>
 

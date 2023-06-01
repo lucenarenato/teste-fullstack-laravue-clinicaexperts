@@ -17,7 +17,7 @@ class CreateShortLinksTable extends Migration
             $table->id();
             $table->string('identificador')->unique()->nullable();
             $table->string('url_link')->nullable();
-            $table->string('url_mini', 64)->unique();
+            $table->string('url_mini')->unique();
             $table->integer('num_acessos')->unsigned()->default(1);
             $table->timestamps();
         });
