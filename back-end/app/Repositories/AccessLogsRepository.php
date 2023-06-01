@@ -26,7 +26,6 @@ class AccessLogsRepository
     public function create($request)
     {
         $ipData = $this->ipdata(); //data($request);
-        dump($ipData);
 
         $accessLog = new AccessLog();
         $accessLog::updateOrCreate([
@@ -38,7 +37,10 @@ class AccessLogsRepository
             'latitude' => $ipData->latitude ? $ipData->latitude : null,
             'longitude' => $ipData->longitude ? $ipData->longitude : null,
             'cidade' => $ipData->city ? $ipData->city : null,
-            'user_agente' => request()->server('HTTP_USER_AGENT')],
+            'user_agente' => request()->server('HTTP_USER_AGENT'),
+            'short_link_id' => $request,
+        ],
+
         );
 
         return $accessLog;
