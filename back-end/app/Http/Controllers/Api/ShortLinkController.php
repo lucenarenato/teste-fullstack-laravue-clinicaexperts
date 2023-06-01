@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ShortLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\AccessLogsRepository;
 
 class ShortLinkController extends Controller
 {
@@ -54,6 +55,8 @@ class ShortLinkController extends Controller
                 'chave' => $value->url_link,
                 'title' => $value->identificador
             ];
+            $accessLogsRepository = new AccessLogsRepository();
+            $accessLogsRepository->create($value->id);
             return response()->json($params, 200);
         }
         $response = array();
